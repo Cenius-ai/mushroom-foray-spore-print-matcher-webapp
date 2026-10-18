@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+foray.db
+foray.db-journal
+foray.db-wal
+uploads/*
+!uploads/.gitkeep
