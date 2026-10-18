@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% if mode == 'register' %}Create your foray account{% else %}Sign in{% endif %} · Mushroom Foray Spore Print Matcher</title>
+    <meta name="description" content="Sign in to match spore print colours, grade lookalike risk and log finds across a foray." />
+    <link rel="icon" type="image/svg+xml" href="/ui-static/favicon.svg" />
+    <link rel="stylesheet" href="/ui-static/app.css" />
+    <script src="/ui-static/app.js" defer></script>
+    <script src="/ui-static/login.js" defer></script>
+  </head>
+  <body class="signin-body">
+    <div class="scroll-thread" id="scroll-thread" aria-hidden="true"></div>
+    <main class="signin">
+      <section class="signin__intro">
+        <div class="brand">
+          <svg class="brand__mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true" focusable="false">
+            <path d="M4 15.5C4 9.7 9.4 5 16 5s12 4.7 12 10.5c0 1.4-1.1 2.5-2.5 2.5h-19C5.1 18 4 16.9 4 15.5Z" fill="var(--accent)"/>
+            <path d="M13 18h6l-1.2 8.1a1.5 1.5 0 0 1-1.5 1.4h-.6a1.5 1.5 0 0 1-1.5-1.4L13 18Z" fill="var(--primary)"/>
+          </svg>
+          <p class="brand__name">Mushroom Foray<br />Spore Print Matcher</p>
+        </div>
+        <h1 class="signin__title">Read the spore print before you read the field guide.</h1>
+        <p class="signin__lede">
+          Match a spore print photo to the closest of six colour classes, grade a lookalike warning
+          score from cap width and gill crowding, and keep every find in a named foray session.
+        </p>
+        <ul class="signin__points">
+          <li><strong>Colour match</strong> in CIE Lab with delta-E and a confidence percentage.</li>
+          <li><strong>Lookalike score</strong> that explains both of its weighted factors.</li>
+          <li><strong>Foray log</strong> of swatch, confidence, habitat and risk band, charted per session.</li>
+        </ul>
+        <p class="signin__disclaimer">
+          Heuristic only. This tool never identifies a species and never says a mushroom is safe to eat.
+        </p>
+      </section>
+
+      <section class="card signin__card" aria-labelledby="signin-heading">
+        <div class="card__head">
+          <h2 class="card__title" id="signin-heading">
+            {% if mode == 'register' %}Create your account{% else %}Sign in{% endif %}
+          </h2>
+          <p class="card__meta">
+            {% if mode == 'register' %}
+              Accounts keep each foray session private to you.
+            {% else %}
+              Sign in to reach your foray sessions and dashboard.
+            {% endif %}
+          </p>
+        </div>
+
+        <div class="segmented" role="tablist" aria-label="Sign in or create an account">
+          <a class="segmented__option{% if mode != 'register' %} is-active{% endif %}" href="/login" role="tab"
+             aria-selected="{{ 'false' if mode == 'register' else 'true' }}" data-mode-target="signin">Sign in</a>
+          <a class="segmented__option{% if mode == 'register' %} is-active{% endif %}" href="/login?mode=register"
+             role="tab" aria-selected="{{ 'true' if mode == 'register' else 'false' }}"
+             data-mode-target="register">Create account</a>
+        </div>
+
+        <form class="form" method="post" action="/login" id="signin-form" novalidate>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+          <input type="hidden" name="mode" id="signin-mode" value="{{ mode }}" />
+
+          {% if error %}
+          <p class="form__error" role="alert" id="signin-error">{{ error }}</p>
+          {% endif %}
+
+          <div class="field">
+            <label class="field__label" for="username">Email or username</label>
+            <input class="field__input" id="username" name="username" type="text" value="{{ username }}"
+                   autocomplete="username" autocapitalize="none" spellcheck="false" required
+                   placeholder="cenius@cenius.ai" {% if not error %}autofocus{% endif %}
+                   aria-describedby="signin-hint" />
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="password">Password</label>
+            <div class="field__with-action">
+              <input class="field__input" id="password" name="password" type="password"
+                     autocomplete="current-password" required placeholder="••••••••"
+                     aria-describedby="password-hint" />
+              <button class="field__action" type="button" id="toggle-password"
+                      aria-controls="password" aria-pressed="false">Show</button>
+            </div>
+            <p class="field__hint" id="password-hint">
+              New accounts need at least 8 characters.
+            </p>
+          </div>
+
+          <button class="btn btn--primary btn--block" type="submit" id="signin-submit">
+            <span class="btn__label">{% if mode == 'register' %}Create account{% else %}Sign in{% endif %}</span>
+          </button>
+
+          <p class="field__hint" id="signin-hint">
+            Both fields are required. Sign-in failures never say whether the username exists.
+          </p>
+        </form>
+
+        <div class="demo">
+          <p class="demo__label">Demo accounts</p>
+          <p class="demo__creds">Demo: cenius@cenius.ai / cenius</p>
+          <p class="demo__creds">Plan demo: demo / demo1234</p>
+          <button class="btn btn--ghost btn--small" type="button" id="use-demo-credentials">
+            Fill demo credentials
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
