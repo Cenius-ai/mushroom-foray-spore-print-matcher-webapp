@@ -33,7 +33,7 @@ _Local clone? See [Quick start](#quick-start) below. cenius.ai is the zero-setup
 
 ## Architecture
 
-The repository contains 67 files of Full-stack app source, organised under `static/`, `templates/`, `tests/`, `tools/`, `uploads/`. Starting up is just `./install.sh`: it installs what is needed and pre-fills the database so you have data to work with straight away. Full setup details: [`INSTALL.md`](INSTALL.md).
+The repository contains 56 files of Full-stack app source, organised under `static/`, `templates/`, `tests/`, `tools/`, `uploads/`. Starting up is just `./install.sh`: it installs what is needed and pre-fills the database so you have data to work with straight away. Full setup details: [`INSTALL.md`](INSTALL.md).
 
 ## Quick start
 
